@@ -1,0 +1,254 @@
+/* ==========================================================================
+   Relationship panel — v2 (โหลดหลัง style.css)
+   ========================================================================== */
+
+/* ---------- หัวและแถบเครื่องมือ ---------- */
+.rel-page-head h2 { display: flex; align-items: center; gap: 8px; margin: 0 0 12px; font-size: 1.15rem; }
+.count-chip {
+  font-size: .74rem; font-weight: 500; color: var(--gold);
+  background: #3a2a10; border: 1px solid #5a3f10; border-radius: 999px; padding: 1px 9px;
+}
+.rel-toolbar {
+  display: grid; grid-template-columns: minmax(0, 1fr) 180px auto; gap: 8px; align-items: center;
+  background: var(--bg2); border: 1px solid var(--line); border-radius: 10px;
+  padding: 10px; margin-bottom: 12px;
+}
+.rel-toolbar select { width: 100%; }
+.rel-toolbar .btn { white-space: nowrap; }
+@media (max-width: 720px) {
+  .rel-toolbar { grid-template-columns: 1fr 1fr; }
+  .rel-toolbar .rel-search { grid-column: 1 / -1; }
+}
+
+/* ---------- เลย์เอาต์สองคอลัมน์ ---------- */
+.rel-layout {
+  display: grid; grid-template-columns: 280px minmax(0, 1fr); gap: 14px;
+  height: clamp(540px, calc(100vh - 230px), 760px); min-height: 0; line-height: 1.6;
+}
+
+/* ---------- รายชื่อซ้าย ---------- */
+.rel-list {
+  display: flex; flex-direction: column; min-height: 0; overflow-y: auto;
+  border: 1px solid var(--line); border-radius: 10px; background: var(--bg2);
+}
+.rel-list-head {
+  position: sticky; top: 0; z-index: 1;
+  display: flex; justify-content: space-between; align-items: center; gap: 8px;
+  padding: 9px 12px; font-size: .78rem; color: var(--mute); white-space: nowrap;
+  background: var(--bg2); border-bottom: 1px solid var(--line);
+}
+.rel-item {
+  display: grid; grid-template-columns: auto 44px minmax(0, 1fr); align-items: center; gap: 10px;
+  padding: 10px 12px; border-bottom: 1px solid #2a2523; cursor: pointer;
+  transition: background .15s; position: relative;
+}
+.rel-item:last-child { border-bottom: none; }
+.rel-item:hover { background: var(--bg3); }
+.rel-item.active { background: #3a2a10; box-shadow: inset 3px 0 0 var(--gold); }
+
+/* checkbox ซ่อนไว้จนกว่าจะชี้เมาส์ หรือมีรายการถูกเลือกอยู่ */
+.rel-item .bulk-check {
+  margin: 0; width: 16px; height: 16px; accent-color: var(--gold2); cursor: pointer;
+  opacity: 0; transition: opacity .15s;
+}
+.rel-item:hover .bulk-check,
+.rel-item .bulk-check:checked,
+.rel-list:has(.bulk-check:checked) .bulk-check { opacity: 1; }
+@media (hover: none) { .rel-item .bulk-check { opacity: 1; } }
+
+.rel-thumb { width: 44px; height: 44px; display: grid; place-items: center; }
+.rel-thumb img { display: block; }
+.rel-info { min-width: 0; }
+.rel-name-row { display: flex; align-items: center; gap: 5px; min-width: 0; }
+.rel-name {
+  font-weight: 600; color: var(--text); font-size: .9rem;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0;
+}
+.rel-name-row .star-btn { padding: 0; font-size: .8rem; cursor: default; }
+.rel-meta {
+  font-size: .76rem; color: var(--mute); margin-top: 2px;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.rel-affinity { font-weight: 600; }
+.rel-aff { display: block; height: 3px; margin-top: 6px; border-radius: 2px; background: var(--bg3); overflow: hidden; }
+.rel-aff i { display: block; height: 100%; width: var(--aff, 50%); background: var(--gold); border-radius: 2px; }
+.rel-aff i.neg { background: #b91c1c; }
+.unsaved-dot {
+  flex: none; display: inline-block; width: 7px; height: 7px; border-radius: 50%;
+  background: var(--gold); box-shadow: 0 0 0 2px rgba(245,158,11,.25);
+}
+.rel-empty-list { padding: 28px 12px; text-align: center; color: var(--mute); font-size: .88rem; }
+
+/* ---------- แผงแก้ไขขวา ---------- */
+.rel-editor {
+  display: flex; flex-direction: column; min-height: 0; overflow-y: auto;
+  border: 1px solid var(--line); border-radius: 10px; background: var(--bg2);
+}
+/* ส่วนหัวและแท็บย่อยติดอยู่ด้านบน เลื่อนเฉพาะเนื้อหา */
+.rel-editor-top {
+  position: sticky; top: 0; z-index: 2;
+  background: var(--bg2); padding: 16px 18px 12px; border-bottom: 1px solid var(--line);
+}
+.rel-editor-head {
+  display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 12px;
+  margin-bottom: 12px;
+}
+.rel-head-main { display: flex; align-items: center; gap: 14px; min-width: 0; }
+.rel-head-thumb { flex: none; }
+.rel-head-text h3 {
+  margin: 0 0 6px; font-size: 1.1rem; color: var(--gold);
+  font-family: 'Noto Serif Thai', serif; line-height: 1.4;
+}
+.rel-head-text h3 .star-btn { font-size: 1rem; vertical-align: middle; margin-left: 2px; }
+.rel-head-meta { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip-mini {
+  font-size: .74rem; padding: 2px 9px; border-radius: 999px; line-height: 1.5;
+  background: var(--bg3); border: 1px solid var(--line); color: var(--mute);
+}
+.chip-mini.gold { color: #fde68a; border-color: #5a3f10; background: #3a2a10; }
+.chip-mini.dead { color: #fca5a5; border-color: #7f1d1d; }
+.rel-editor-head .btn.danger-ghost { font-size: .8rem; }
+
+/* ---------- แท็บย่อย: แบ่งเป็นช่อง ตัดบรรทัดได้ ไม่มี overflow ---------- */
+.rel-sub-tabs {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(84px, 1fr)); gap: 4px;
+  padding: 4px; margin: 0; background: #141210; border: 1px solid var(--line); border-radius: 10px;
+}
+.rel-sub-tab {
+  background: none; border: none; color: var(--mute); cursor: pointer; font: inherit; font-size: .84rem;
+  line-height: 1.5; text-align: center; white-space: normal;
+  padding: 7px 6px; border-radius: 7px;
+}
+.rel-sub-tab:hover { background: var(--bg3); color: var(--text); }
+.rel-sub-tab[aria-selected="true"] {
+  background: #3a2a10; color: var(--gold); font-weight: 600; box-shadow: inset 0 -2px 0 var(--gold);
+}
+.rel-sub-tab:focus-visible { outline: 2px solid var(--gold); outline-offset: 1px; }
+
+.rel-editor-body { flex: 1 1 auto; min-height: 0; padding: 16px 18px 18px; }
+.rel-editor h4 {
+  margin: 18px 0 10px; font-size: .88rem; color: var(--gold2); font-weight: 600;
+  padding-bottom: 5px; border-bottom: 1px dashed #3a3532;
+}
+.rel-editor dl.pv-grid dt { color: var(--mute); }
+.rel-editor dl.pv-grid dd { margin: 0; color: var(--text); }
+
+/* ---------- สถานะว่าง ---------- */
+.rel-placeholder {
+  margin: auto; text-align: center; color: var(--mute); padding: 40px 16px; font-size: .92rem; line-height: 1.7;
+}
+.rel-placeholder-icon { font-size: 2.2rem; margin-bottom: 8px; opacity: .85; }
+
+/* ---------- มือถือ ---------- */
+@media (max-width: 720px) {
+  .rel-layout { grid-template-columns: 1fr; height: auto; }
+  .rel-list { max-height: 320px; }
+  .rel-editor { min-height: 420px; }
+  .rel-sub-tabs { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
+/* ---------- แถบ bulk ---------- */
+.bulk-toolbar-npc { border-radius: 10px; }
+
+/* ============================================================
+   rel-polish.css — v3 (2026-11-07)
+   Fix: NPC editor — sticky sub-tabs, wider panel, compact look controls
+   ============================================================ */
+
+/* ---- 1) .rel-editor: เปลี่ยนจาก flex เป็น block ----
+   เพื่อให้ sticky ทำงาน + scrollbar ขึ้นจริง */
+.rel-editor {
+  display: block;
+  overflow-y: auto;
+  max-height: calc(100vh - var(--top-h, 76px) - 40px);
+  padding: 0;   /* ย้าย padding ไปที่ header + body */
+}
+
+/* ---- 2) Sticky header: หัว + ชื่อ + sub-tabs ตรึงบนสุด ---- */
+.rel-editor-top {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  margin: 0;
+  padding: 14px 16px 10px;
+  background: var(--bg2);
+  border-bottom: 1px solid var(--line);
+  border-radius: 10px 10px 0 0;
+}
+
+/* ---- 3) Body: ความสูงตามเนื้อหา ไม่ยืด ไม่ clip ---- */
+.rel-editor-body {
+  flex: none;
+  min-height: 0;
+  overflow: visible;
+  padding: 14px 16px 18px;
+}
+
+/* ---- 4) Sub-tabs: 5 ช่องในแถวเดียวเมื่อมีที่พอ ---- */
+.rel-sub-tabs {
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+@media (max-width: 520px) {
+  .rel-sub-tabs {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+/* ---- 5) ขยายหน้าเมื่ออยู่แท็บความสัมพันธ์ (ให้ editor กว้างขึ้น) ---- */
+body:has(.rel-page-head) .layout {
+  max-width: 1520px;
+}
+
+/* ---- 6) ลดความกว้าง rel-list เพื่อให้ editor ได้พื้นที่เพิ่ม ---- */
+.rel-layout {
+  grid-template-columns: 210px minmax(0, 1fr);
+}
+
+/* ---- 7) รูปลักษณ์: เรียงแนวตั้งบนจอแคบ + ย่อ .opt ---- */
+@media (max-width: 760px) {
+  .look-box {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  .look-stage {
+    min-height: 180px;
+    padding: 10px;
+  }
+  .look-pic {
+    max-width: 100%;
+    height: auto;
+    max-height: 200px;
+  }
+  .opt {
+    grid-template-columns: 56px 28px minmax(0, 1fr) 28px;
+    gap: 4px;
+    padding: 4px 8px;
+    font-size: .82rem;
+  }
+  .opt-n { display: none; }
+  .opt > * { min-width: 0; }
+  .opt-v {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+
+/* ---- 8) จอขนาดกลาง: ย่อ .opt เล็กน้อย ---- */
+@media (max-width: 960px) and (min-width: 761px) {
+  .opt {
+    grid-template-columns: 60px 30px minmax(0, 1fr) 30px 44px;
+    gap: 6px;
+    padding: 4px 10px;
+  }
+  .opt > * { min-width: 0; }
+}
+
+/* ---- 9) ปุ่มใหญ่ขึ้นบนจอสัมผัส ---- */
+@media (pointer: coarse) {
+  .opt .btn.sm {
+    min-width: 32px;
+    min-height: 32px;
+    padding: 3px 4px;
+  }
+}

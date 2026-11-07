@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="เครื่องมือแก้ไขไฟล์เซฟ .wox ของเกม Way of Xian">
+  <meta name="theme-color" content="#0c0a09">
+  <title>Wox Save Editor</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;500;600;700&family=Noto+Serif+Thai:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/rel-polish.css">
+</head>
+<body>
+  <a class="skip-link" href="#panel">ข้ามไปยังเนื้อหา</a>
+  <noscript><p class="note bad" style="margin:16px">เครื่องมือนี้ต้องเปิด JavaScript ก่อนใช้งาน</p></noscript>
+
+  <header class="top">
+    <div class="brand">
+      <span class="seal" aria-hidden="true">☯</span>
+      <div>
+        <h1>Wox Save Editor</h1>
+        <p>แก้ไฟล์เซฟ <code>.wox</code> ของ Way of Xian แล้วส่งกลับเข้าเกม</p>
+      </div>
+    </div>
+    <div class="actions" role="toolbar" aria-label="เครื่องมือหลัก">
+      <button class="btn ghost" id="search-btn" title="ค้นหา (Ctrl+K หรือ ⌘K)" aria-keyshortcuts="Control+K Meta+K">
+        <span aria-hidden="true">🔍</span> ค้นหา
+      </button>
+      <label class="btn file-btn" for="file" title="เปิดไฟล์ (Ctrl+O)">
+        เปิดไฟล์เซฟ (.wox / .json)
+        <input id="file" type="file" accept=".wox,.json" class="sr-only">
+      </label>
+      <button class="btn ghost" id="undo-btn" disabled aria-label="ย้อนกลับ" title="ย้อนกลับ (Ctrl+Z)">↶</button>
+      <button class="btn ghost" id="redo-btn" disabled aria-label="ทำซ้ำ" title="ทำซ้ำ (Ctrl+Y)">↷</button>
+      <button class="btn ghost" id="reset" disabled>คืนค่าเดิม</button>
+      <button class="btn primary" id="save" disabled title="ดาวน์โหลดไฟล์ .wox (Ctrl+S)">ดาวน์โหลด .wox</button>
+      <button class="btn" id="savejson" disabled title="ใช้กับเกมบน iPhone/iPad">ดาวน์โหลด .json</button>
+    </div>
+  </header>
+
+  <main class="layout" id="main">
+    <aside class="sidebar"><nav id="nav" aria-label="หมวดการแก้ไข"></nav></aside>
+    <section class="panel-wrap" aria-label="แผงแก้ไข"><div class="panel" id="panel"></div></section>
+    <aside class="right" aria-label="ข้อมูลตัวละครและการตรวจสอบ">
+      <div class="card" id="preview"></div>
+      <div class="card" id="warn"></div>
+    </aside>
+  </main>
+
+  <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+
+  <!-- defer ทุกตัว: รักษาลำดับ + ไม่บล็อก parser -->
+  <script src="data/catalog.js" defer></script>
+  <script src="data/catalog-extra.js" defer></script>
+  <script src="js/wox-io.js" defer></script>
+  <script src="js/char-preview.js" defer></script>
+  <script src="js/npc-preview.js" defer></script>
+  <script src="js/ui-dialog.js" defer></script>
+  <script src="js/app.js" defer></script>
+  <script src="js/ui-polish.js" defer></script>
+</body>
+</html>
